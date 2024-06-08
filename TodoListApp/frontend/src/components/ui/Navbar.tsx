@@ -1,16 +1,16 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import useAuthContext from '../../hooks/useAuthContext';
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Fragment } from "react";
+import { Link, NavLink } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const navigation = [
-  { name: 'Home', path: '/', current: true },
-  { name: 'QuickStart', path: '/quickstart', current: false },
+  { name: "Inicio", path: "/", current: true },
+  { name: "Documentación", path: "/documentacion", current: false },
 ];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
@@ -51,9 +51,9 @@ export default function Navbar() {
                         className={({ isActive }) =>
                           classNames(
                             isActive
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-600 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium'
+                              ? "bg-gray-900 text-white"
+                              : "text-gray-600 hover:bg-gray-700 hover:text-white",
+                            "rounded-md px-3 py-2 text-sm font-medium"
                           )
                         }
                       >
@@ -99,11 +99,11 @@ export default function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={''}
+                            to={""}
                             onClick={logout}
                             className={classNames(
-                              active ? 'bg-gray-100' : '',
-                              'block px-4 py-2 text-sm text-gray-700'
+                              active ? "bg-gray-100" : "",
+                              "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Sign out
@@ -126,9 +126,9 @@ export default function Navbar() {
                   className={({ isActive }) =>
                     classNames(
                       isActive
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium'
+                        ? "bg-gray-900 text-white"
+                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                      "block rounded-md px-3 py-2 text-base font-medium"
                     )
                   }
                 >

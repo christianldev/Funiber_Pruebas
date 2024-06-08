@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import useAuthContext from '../hooks/useAuthContext';
 import toast from 'react-hot-toast';
 import Spinner from '../components/ui/Spinner';
+import TodoList from '../components/ui/TodoList';
 
 export default function Home() {
   const { user, sendEmailVerificationLink, status, loading } = useAuthContext();
@@ -15,7 +16,7 @@ export default function Home() {
   return (
     <>
       <h1 className="text-lg italic">
-        Hello, <strong className="not-italic">{user?.name}</strong>!
+        Hola, <strong className="not-italic">{user?.name}</strong>!
       </h1>
 
       {!user?.email_verified_at && (
@@ -31,6 +32,7 @@ export default function Home() {
           </button>
         </div>
       )}
+      <TodoList />
     </>
   );
 }
