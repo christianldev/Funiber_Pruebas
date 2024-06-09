@@ -1,5 +1,5 @@
 type Task = {
-    id?: number;
+    id: number;
     title: string;
     order: number;
     status: string;

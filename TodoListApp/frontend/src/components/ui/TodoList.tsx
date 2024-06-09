@@ -1,17 +1,26 @@
 import {
   createTask,
   deleteTask,
+  editTask,
   getTasks,
 } from "../../services/todolist.services";
 import useAuthContext from "../../hooks/useAuthContext";
 import Task from "../../interfaces/Task";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaPen, FaRegTrashAlt } from "react-icons/fa";
+import EditModalTodo from "./EditModalTodo";
 
 function TodoList() {
   const [todos, setTodos] = useState<Task[]>([]); // Changed this line
+  const [selectedTodo, setSelectedTodo] = useState<Task>({
+    id: 0,
+    title: "",
+    order: 0,
+    status: "",
+  }); // Changed this line
   const [completed, setCompleted] = useState<boolean[]>([]); // Changed this line
+  const [openModal, setOpenModal] = useState(false);
 
   const [input, setInput] = useState({
     id: 0,
@@ -49,33 +58,33 @@ function TodoList() {
         // Limpia el input
         setInput({ ...input, title: "" });
         // Muestra un mensaje de éxito
-        toast.success("Task created successfully");
+        toast.success("Tarea creada con éxito");
       } else {
         // Maneja el error
-        toast.error("Error creating task");
+        toast.error("Error al crear la tarea");
       }
     } else {
-      toast.error("Task title cannot be empty");
+      toast.error("El título no puede estar vacío");
     }
   };
 
   const handleDelete = async (taskId: number) => {
-    console.log("Deleting task with id: ", taskId);
     const response = await deleteTask(taskId);
     console.log(response);
     setTodos(todos.filter((task) => task.id !== taskId));
   };
 
-  const handleEdit = (index: number) => {
-    const newTodos = [...todos];
-    const newTask = { ...newTodos[index] };
-    newTask.title = prompt("Edit task", newTask.title) || newTask.title;
-    newTodos[index] = newTask;
-    setTodos(newTodos);
+  // Esta función se llama cuando se envía el formulario de edición de la tarea.
+  // Hace una solicitud para editar la tarea y luego actualiza el estado de las tareas.
+  const handleEditTodo = async () => {
+    if (selectedTodo) {
+      const response = await editTask(selectedTodo);
+      console.log(response);
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({ ...input, [event.target.name]: event.target.value });
+    setInput((prevInput) => ({ ...prevInput, title: event.target.value }));
   };
 
   // si activo el check, se tacha el texto con un estilo tailwind css
@@ -84,6 +93,15 @@ function TodoList() {
     const newCompleted = [...completed];
     newCompleted[index] = !newCompleted[index];
     setCompleted(newCompleted);
+  };
+
+  const handleOpenModal = (todo: Task) => {
+    setOpenModal(true);
+    setSelectedTodo(todo);
+  };
+
+  const handleTodoTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedTodo({ ...selectedTodo, title: e.target.value });
   };
 
   return (
@@ -139,13 +157,21 @@ function TodoList() {
                   </button>
                   <button
                     className="text-blue-500 hover:text-blue-700 edit-btn"
-                    onClick={() => handleEdit(todo.id)}
+                    onClick={() => handleOpenModal(todo)}
                   >
                     <FaPen />
                   </button>
                 </div>
               </li>
             ))}
+            {openModal && selectedTodo && (
+              <EditModalTodo
+                todo={selectedTodo}
+                onEdit={handleEditTodo}
+                onClose={() => setOpenModal(false)}
+                onTodoTitleChange={handleTodoTitleChange}
+              />
+            )}
           </ul>
         </div>
       </div>
