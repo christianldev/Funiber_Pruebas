@@ -1,6 +1,6 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import useAuthContext from '../../hooks/useAuthContext';
-import Spinner from '../ui/Spinner';
+import { Outlet, Navigate } from "react-router-dom";
+import useAuthContext from "../../hooks/useAuthContext";
+import Spinner from "../ui/Spinner";
 
 export default function GuestLayout() {
   const { user, sessionVerified } = useAuthContext();
@@ -11,10 +11,10 @@ export default function GuestLayout() {
         <div className="scale-150">
           <Spinner loading={true} />
         </div>
-        <span>Authenticating...</span>
+        <span>Verificando sesión...</span>
       </div>
     );
   }
 
-  return !user ? <Outlet /> : <Navigate to={'/'} />;
+  return !user ? <Outlet /> : <Navigate to={"/"} />;
 }

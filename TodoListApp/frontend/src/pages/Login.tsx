@@ -1,11 +1,11 @@
-import { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Spinner from '../components/ui/Spinner';
-import useAuthContext from '../hooks/useAuthContext';
+import { FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
+import Spinner from "../components/ui/Spinner";
+import useAuthContext from "../hooks/useAuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { login, errors, loading } = useAuthContext();
 
   const handleLogin = async (e: FormEvent) => {
@@ -16,9 +16,10 @@ export default function Login() {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
+        <img
+          src="https://www.fcme.com.ec/wp-content/uploads/logo-funiber.png"
+          className="mt-6 text-center font-bold leading-9 tracking-tight  sm:mx-auto sm:w-full sm:max-w-sm"
+        />
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -28,7 +29,7 @@ export default function Login() {
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address
+              Correo electrónico
             </label>
             <div className="mt-2">
               <input
@@ -37,7 +38,7 @@ export default function Login() {
                 type="email"
                 autoComplete="email"
                 className={`block w-full border-0 rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                  errors.email && 'ring-red-500'
+                  errors.email && "ring-red-500"
                 }`}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -54,14 +55,14 @@ export default function Login() {
                 htmlFor="password"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
-                Password
+                Contraseña
               </label>
               <div className="text-sm">
                 <Link
-                  to={'/forgot-password'}
+                  to={"/forgot-password"}
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
-                  Forgot password?
+                  Contraseña olvidada?
                 </Link>
               </div>
             </div>
@@ -72,7 +73,7 @@ export default function Login() {
                 type="password"
                 autoComplete="current-password"
                 className={`block w-full border-0 rounded-md py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${
-                  errors.password && 'ring-red-500'
+                  errors.password && "ring-red-500"
                 }`}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -90,18 +91,18 @@ export default function Login() {
               disabled={loading}
             >
               <Spinner loading={loading} />
-              <span>Sign in</span>
+              <span>Inicio Sesion</span>
             </button>
           </div>
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Don't have an account?{' '}
+          No tienes una cuenta?{" "}
           <Link
-            to={'/register'}
+            to={"/register"}
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Sign up
+            Registrate
           </Link>
         </p>
       </div>
