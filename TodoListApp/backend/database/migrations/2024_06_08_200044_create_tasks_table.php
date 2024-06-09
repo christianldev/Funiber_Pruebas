@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('order');
             $table->enum('status', ['pending', 'in progress', 'completed']);
+            $table->softDeletes(); // Agregar columna `deleted_at`
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
