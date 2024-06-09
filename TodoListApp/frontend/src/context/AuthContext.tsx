@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
-import axios from '../lib/axios';
-import { useNavigate } from 'react-router-dom';
+import { ReactNode, createContext, useEffect, useState } from "react";
+import axios from "../lib/axios";
+import { useNavigate } from "react-router-dom";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -10,7 +10,7 @@ type User = {
   name?: string;
   email?: string;
   created_at?: string;
-  id?: string;
+  id?: number;
   updated_at?: string;
   email_verified_at?: string;
 };
@@ -57,7 +57,7 @@ export const AuthContext = createContext<AuthContextValues>(
   {} as AuthContextValues
 );
 
-const SESSION_NAME = 'session-verified';
+const SESSION_NAME = "session-verified";
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState(null);
@@ -72,16 +72,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     initialSessionVerified
   );
 
-  const csrf = () => axios.get('/sanctum/csrf-cookie');
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const getUser = async () => {
     try {
-      const { data } = await axios.get('/api/user');
+      const { data } = await axios.get("/api/user");
       setUser(data);
       setSessionVerified(true);
-      window.localStorage.setItem(SESSION_NAME, 'true');
+      window.localStorage.setItem(SESSION_NAME, "true");
     } catch (e) {
-      console.warn('Error ', e);
+      console.warn("Error ", e);
     }
   };
 
@@ -90,10 +90,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      await axios.post('/login', data);
+      await axios.post("/login", data);
       await getUser();
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -111,10 +111,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       await csrf();
-      await axios.post('/register', data);
+      await axios.post("/register", data);
       await getUser();
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -133,10 +133,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/forgot-password', data);
+      const response = await axios.post("/forgot-password", data);
       setStatus(response.data?.status);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -155,13 +155,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/reset-password', data);
+      const response = await axios.post("/reset-password", data);
       setStatus(response.data?.status);
       setTimeout(() => {
-        navigate('/login');
+        navigate("/login");
       }, 2000);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -180,10 +180,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       await csrf();
-      const response = await axios.post('/email/verification-notification');
+      const response = await axios.post("/email/verification-notification");
       setStatus(response.data?.status);
     } catch (e) {
-      if (typeof e === 'object' && e !== null && 'response' in e) {
+      if (typeof e === "object" && e !== null && "response" in e) {
         console.warn((e as { response: { data: unknown } }).response.data);
         setErrors(
           (e as { response: { data: { errors: [] } } }).response.data.errors
@@ -199,7 +199,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     try {
       setSessionVerified(false);
-      await axios.post('/logout');
+      await axios.post("/logout");
       setUser(null);
       window.localStorage.removeItem(SESSION_NAME);
     } catch (e) {

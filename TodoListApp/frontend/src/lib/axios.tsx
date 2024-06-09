@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError } from "axios";
 
 const instance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL as string,
@@ -10,6 +10,7 @@ const instance: AxiosInstance = axios.create({
 instance.interceptors.response.use(
   (response) => {
     // If the request was successful, return the response
+
     return response;
   },
   (error: AxiosError) => {

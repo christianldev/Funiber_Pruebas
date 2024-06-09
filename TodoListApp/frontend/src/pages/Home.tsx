@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import useAuthContext from '../hooks/useAuthContext';
-import toast from 'react-hot-toast';
-import Spinner from '../components/ui/Spinner';
-import TodoList from '../components/ui/TodoList';
+import { useEffect } from "react";
+import useAuthContext from "../hooks/useAuthContext";
+import toast from "react-hot-toast";
+import Spinner from "../components/ui/Spinner";
+import TodoList from "../components/ui/TodoList";
 
 export default function Home() {
   const { user, sendEmailVerificationLink, status, loading } = useAuthContext();
