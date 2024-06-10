@@ -5,12 +5,14 @@ export default function EditModalTodo({
   onEdit,
   onClose,
   onTodoTitleChange,
+  handleStatusChange,
 }: //   handleEdit,
 {
   todo: Task;
   onEdit: (todo: number) => void;
   onClose: () => void;
   onTodoTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -42,6 +44,24 @@ export default function EditModalTodo({
                     value={todo.title}
                     onChange={onTodoTitleChange}
                   />
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <label className="block mb-2 text-sm font-medium text-gray-400">
+                    Estado
+                  </label>
+                  <select
+                    id="status"
+                    name="status"
+                    value={todo.status}
+                    onChange={handleStatusChange}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                  >
+                    <option>Seleccion un estado</option>
+                    <option value="pending">Pending</option>
+
+                    <option value="in progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </select>
                 </div>
               </div>
             </div>

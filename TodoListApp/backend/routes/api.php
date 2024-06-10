@@ -22,7 +22,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/tasks', [TaskController::class, 'index']);
     Route::post('/tasks', [TaskController::class, 'store']);
-    Route::get('/tasks/{task}', [TaskController::class, 'show']);
+    Route::get('/tasks/{tasks}', [TaskController::class, 'show']);
+    Route::get('/tasks/{userId}/{filter}', [TaskController::class, 'getTasksByFilterAndOrder']);
     Route::put('/tasks/{task}', [TaskController::class, 'update']);
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy']);
     Route::put('/tasks/{task}/status/{status}', [TaskController::class, 'status']);

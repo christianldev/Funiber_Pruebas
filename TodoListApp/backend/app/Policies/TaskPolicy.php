@@ -15,4 +15,10 @@ class TaskPolicy
         // Permitir la eliminación sólo si el usuario actual es el propietario de la tarea
         return $user->id === $task->user_id;
     }
+
+    public function update(User $user, Task $task)
+    {
+        // Permitir la actualización sólo si el usuario actual es el propietario de la tarea
+        return $user->id === $task->user_id;
+    }
 }

@@ -6,6 +6,8 @@ use App\Http\Requests\Tasks\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
+use Exception;
+
 class TaskController extends Controller
 {
     //
@@ -25,11 +27,32 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function show(Request $request, Task $task)
-    {
-        $this->authorize('view', $task);
 
-        return response()->json($task);
+    public function show(Request $request, $status)
+    {
+        $tasks = $request->user()->tasks()->where('status', $status)->orderBy('order')->get();
+
+        return response()->json($tasks);
+    }
+
+    public function getTasksByFilterAndOrder($userId, $filter)
+    {
+        try {
+            // Asegúrate de que $filter sea una de las opciones permitidas
+            if (!in_array($filter, ['pending', 'completed', 'in progress'])) {
+                throw new Exception('Invalid filter');
+            }
+
+            // Obtén las tareas del usuario que coincidan con el filtro y ordénalas por el campo 'order'
+            $tasks = Task::where('user_id', $userId)
+                ->where('status', $filter)
+                ->orderBy('order', 'asc')
+                ->get();
+
+            return response()->json($tasks, 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 
     public function update(TaskRequest $request, Task $task)

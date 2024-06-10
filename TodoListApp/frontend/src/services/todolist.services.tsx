@@ -56,7 +56,7 @@ export const deleteTask = async (id: number) => {
 export const editTask = async (task: Task) => {
   if (!task.id) return;
   if (!task.title) {
-    toast.error("Title is required!");
+    toast.error("Titulo es requerido!");
     return;
   }
 
@@ -64,10 +64,12 @@ export const editTask = async (task: Task) => {
     const response = await axios.put(`/api/tasks/${task.id}`, {
       title: task.title,
       order: task.order,
+      status: task.status,
     });
-    const { success, message } = response.data;
 
-    toast[success ? "success" : "error"](message);
+    toast.success("Tarea actualizada con éxito");
+
+    return response;
   } catch (err) {
     toast.error(getErrorMessage(err));
   }

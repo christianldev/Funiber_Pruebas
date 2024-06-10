@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { FaPen, FaRegTrashAlt } from "react-icons/fa";
 import EditModalTodo from "./EditModalTodo";
+import TodoFilter from "./TodoFilter";
 
 function TodoList() {
   const [todos, setTodos] = useState<Task[]>([]); // Changed this line
@@ -47,7 +48,7 @@ function TodoList() {
         id: 0, // Assume 'id' is 0
         title: input.title.trim(),
         order: todos.length, // Assume 'order' is the current length of 'todos'
-        status: "pending",
+        status: input.status,
       };
 
       const response = await createTask(newTask, user?.id);
@@ -79,7 +80,16 @@ function TodoList() {
   const handleEditTodo = async () => {
     if (selectedTodo) {
       const response = await editTask(selectedTodo);
-      console.log(response);
+      if (response?.status === 200) {
+        // Actualiza la lista de tareas
+        setTodos(
+          todos.map((task) =>
+            task.id === selectedTodo.id ? selectedTodo : task
+          )
+        );
+        // Cierra el modal
+        setOpenModal(false);
+      }
     }
   };
 
@@ -104,18 +114,28 @@ function TodoList() {
     setSelectedTodo({ ...selectedTodo, title: e.target.value });
   };
 
+  const handleStatusChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTodo({
+      ...selectedTodo,
+      status: e.target.value,
+    });
+  };
+
   return (
     <div className="container mx-auto my-10">
       <div className="md:w-1/2 mx-auto">
         <div className="bg-white shadow-md rounded-lg p-6">
           <form id="todo-form" onSubmit={handleAddTodo}>
-            <h5 className="text-sm font-semibold mb-4">Awesome Todo List</h5>
+            <div className="flex items-center justify-between mb-4">
+              <h5 className="text-md font-semibold mb-4">Revisa tus tareas</h5>
+              <TodoFilter />
+            </div>
             <div className="flex mb-4">
               <input
                 type="text"
                 className="w-full px-4 py-2 mr-2 rounded-lg border-gray-500 focus:outline-none focus:border-blue-500"
                 name="title"
-                placeholder="What do you need to do today?"
+                placeholder="Qué necesitas hacer?"
                 value={input.title}
                 onChange={(e) =>
                   handleInputChange(e as ChangeEvent<HTMLInputElement>)
@@ -170,6 +190,7 @@ function TodoList() {
                 onEdit={handleEditTodo}
                 onClose={() => setOpenModal(false)}
                 onTodoTitleChange={handleTodoTitleChange}
+                handleStatusChange={handleStatusChange}
               />
             )}
           </ul>
